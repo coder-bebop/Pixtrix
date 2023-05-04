@@ -4,38 +4,66 @@ import {
   TextInput,
   Text,
   StyleSheet,
-  Image,
   Pressable,
+  Alert,
 } from "react-native";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { AuthContext } from "../store/auth-context";
-import { login } from "../utils/auth";
+import { createUser } from "../utils/auth";
 
-function LoginScreen({ navigation }) {
+function SignUpScreen({ navigation }) {
   const authContext = useContext(AuthContext);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
+    confirmPassword: "",
   });
+
   const changeUserInputBound = (identifier) =>
     changeUserInput.bind(this, identifier);
 
-  async function handleLogin() {
-    setIsAuthenticated(false);
-    try {
-      const token = await login();
-      authContext.authenticate(token);
-      setIsAuthenticated(true);
+  async function handleSignUp() {
+    const { email, password, confirmPassword } = userInfo;
 
-      navigation.navigate("Main", { screen: "Home" });
-    } catch (error) {
-      console.log("Error signing in with email and password:", error);
+    if (!(email && password && confirmPassword)) {
+      Alert.alert(
+        "Missing information",
+        "Text spaces should not be left blank"
+      );
+
+      return;
     }
-  }
 
-  function handleSignUp() {
-    navigation.navigate("SignUp");
+    if (password !== confirmPassword) {
+      Alert.alert(
+        "Please confirm your password",
+        "For your benefit, your password should be similar in both text spaces"
+      );
+
+      return;
+    }
+
+    if (password < 6) {
+      Alert.alert(
+        "Password is too short",
+        "Password should be longer than 6 digits"
+      );
+
+      return;
+    }
+
+    setIsAuthenticating(true);
+
+    try {
+      const token = await createUser(email, password);
+      authContext.authenticate(token);
+      navigation.navigate("Confirmation");
+    } catch (error) {
+      console.error(error);
+    }
+
+    setIsAuthenticating(false);
   }
 
   function changeUserInput(identifier, newInfo) {
@@ -46,18 +74,14 @@ function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.logo}
-        source={require("../assets/pixtrix_logo.png")}
-      />
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={userInfo.email}
+        onChangeText={changeUserInputBound("email")}
         autoCapitalize="none"
         autoCorrect={false}
         autoComplete="off"
-        onChangeText={changeUserInputBound("email")}
       />
       <TextInput
         style={styles.input}
@@ -69,18 +93,19 @@ function LoginScreen({ navigation }) {
         autoComplete="off"
         onChangeText={changeUserInputBound("password")}
       />
-      <Pressable style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Confirm password"
+        secureTextEntry={true}
+        value={userInfo.confirmPassword}
+        autoCapitalize="none"
+        autoCorrect={false}
+        autoComplete="off"
+        onChangeText={changeUserInputBound("confirmPassword")}
+      />
+      <Pressable style={styles.button} onPress={handleSignUp}>
+        <Text style={styles.buttonText}>Sign up</Text>
       </Pressable>
-
-      <View style={styles.signUpView}>
-        <Text style={styles.signUpText}>
-          Don't have an account yet?{" "}
-          <Pressable onPress={handleSignUp}>
-            <Text style={styles.signUpButtonText}>Sign up here</Text>
-          </Pressable>
-        </Text>
-      </View>
     </View>
   );
 }
@@ -119,13 +144,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
   },
-  signUpView: {
-    flexDirection: "row",
+  signUpButton: {
+    width: "100%",
+    alignItems: "center",
     marginTop: 20,
-  },
-  signUpText: {
-    color: "black",
-    fontSize: 15,
   },
   signUpButtonText: {
     color: "blue",
@@ -145,4 +167,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default SignUpScreen;
