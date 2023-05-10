@@ -9,7 +9,7 @@ import {
   ConfirmationScreen,
   HomeScreen,
   SearchScreen,
-  SettingsScreen,
+  ProfileScreen,
 } from "./screens";
 import { useContext } from "react";
 import { AuthContext } from "./store/auth-context";
@@ -23,7 +23,7 @@ export default function App() {
       <BottomTabs.Navigator initialRouteName="Home">
         <BottomTabs.Screen name="Home" component={HomeScreen} />
         <BottomTabs.Screen name="Search" component={SearchScreen} />
-        <BottomTabs.Screen name="Settings" component={SettingsScreen} />
+        <BottomTabs.Screen name="Profile" component={ProfileScreen} />
       </BottomTabs.Navigator>
     );
   }

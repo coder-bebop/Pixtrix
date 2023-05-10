@@ -1,24 +1,7 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import Carousel from "react-native-snap-carousel";
-
-const data = {
-  featuredArt: [
-    { id: 1, imageUrl: "https://example.com/image1.jpg" },
-    { id: 2, imageUrl: "https://example.com/image2.jpg" },
-    { id: 3, imageUrl: "https://example.com/image3.jpg" },
-  ],
-  artAttack: [
-    { id: 4, imageUrl: "https://example.com/image4.jpg" },
-    { id: 5, imageUrl: "https://example.com/image5.jpg" },
-    { id: 6, imageUrl: "https://example.com/image6.jpg" },
-  ],
-  somethingNew: [
-    { id: 7, imageUrl: "https://example.com/image7.jpg" },
-    { id: 8, imageUrl: "https://example.com/image8.jpg" },
-    { id: 9, imageUrl: "https://example.com/image9.jpg" },
-  ],
-};
+import DATA from "../constants/dummyData/HomeData";
 
 function HomeScreen() {
   const renderCarouselItem = ({ item }) => {
@@ -36,7 +19,7 @@ function HomeScreen() {
     <View style={styles.container}>
       <Text style={styles.heading}>Featured Art</Text>
       <Carousel
-        data={data.featuredArt}
+        data={DATA.trending}
         renderItem={renderCarouselItem}
         sliderWidth={300}
         itemWidth={250}
@@ -45,7 +28,7 @@ function HomeScreen() {
 
       <Text style={styles.heading}>Art Attack</Text>
       <Carousel
-        data={data.artAttack}
+        data={DATA.artAttack}
         renderItem={renderCarouselItem}
         sliderWidth={300}
         itemWidth={250}
@@ -54,7 +37,7 @@ function HomeScreen() {
 
       <Text style={styles.heading}>Something New</Text>
       <Carousel
-        data={data.somethingNew}
+        data={DATA.somethingNew}
         renderItem={renderCarouselItem}
         sliderWidth={300}
         itemWidth={250}

@@ -9,49 +9,7 @@ import {
   Dimensions,
   Pressable,
 } from "react-native";
-
-const CATEGORIES = [
-  {
-    id: "1",
-    title: "Anime",
-    image: "https://i.imgur.com/1A4QW7b.jpg",
-  },
-  {
-    id: "2",
-    title: "Old School",
-    image: "https://i.imgur.com/rMPrYfj.jpg",
-  },
-  {
-    id: "3",
-    title: "Retro",
-    image: "https://i.imgur.com/Y7A7Pnf.jpg",
-  },
-  {
-    id: "4",
-    title: "Sketches",
-    image: "https://i.imgur.com/m8ahv8s.jpg",
-  },
-  {
-    id: "5",
-    title: "Digital Art",
-    image: "https://i.imgur.com/9El3t8h.jpg",
-  },
-  {
-    id: "6",
-    title: "Fantasy",
-    image: "https://i.imgur.com/xgRzyb5.jpg",
-  },
-  {
-    id: "7",
-    title: "Sci-Fi",
-    image: "https://i.imgur.com/88f7d8s.jpg",
-  },
-  {
-    id: "8",
-    title: "Comics",
-    image: "https://i.imgur.com/VsW6Zdj.jpg",
-  },
-];
+import CATEGORIES from "../constants/dummyData/SearchData";
 
 const numColumns = 2;
 const WIDTH = Dimensions.get("window").width;
@@ -74,7 +32,7 @@ function SearchScreen() {
       <FlatList
         data={CATEGORIES}
         renderItem={renderCategory}
-        keyExtractor={(item) => item.id}
+        keyExtractor={({ title }) => title}
         numColumns={numColumns}
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.categoryList}

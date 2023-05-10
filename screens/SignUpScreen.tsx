@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   TextInput,
@@ -44,7 +44,7 @@ function SignUpScreen({ navigation }) {
       return;
     }
 
-    if (password < 6) {
+    if (password.length < 6) {
       Alert.alert(
         "Password is too short",
         "Password should be longer than 6 digits"

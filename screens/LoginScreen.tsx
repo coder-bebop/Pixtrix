@@ -24,7 +24,8 @@ function LoginScreen({ navigation }) {
   async function handleLogin() {
     setIsAuthenticated(false);
     try {
-      const token = await login();
+      const { email, password } = userInfo;
+      const token = await login(email, password);
       authContext.authenticate(token);
       setIsAuthenticated(true);
 
