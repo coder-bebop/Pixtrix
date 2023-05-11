@@ -1,43 +1,42 @@
 import { View, StyleSheet, FlatList, Pressable } from "react-native";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AlbumCarousel from "../components/AlbumCarousel";
 import ContentModal from "../components/ContentModal";
 import ALBUMS from "../constants/dummyData/ProfileData";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import ContentContextProvider, {
+  ContentContext,
+} from "../store/content-context";
 
 function ProfileScreen() {
   const [albums, setAlbums] = useState(ALBUMS);
-  const [showModal, setShowModal] = useState(false);
+  const { isModalShown, content, showModal } = useContext(ContentContext);
 
   function renderAlbumCarousel({ item }) {
-    return (
-      <AlbumCarousel
-        title={item.title}
-        images={item.images}
-        onSelectTile={showContent}
-      />
-    );
+    return <AlbumCarousel title={item.title} content={item.content} />;
   }
 
   function addAlbum(newAlbum) {
     setAlbums((previousAlbums) => [...previousAlbums, newAlbum]);
   }
 
-  function showContent() {}
-
-  function closeModal() {}
+  function onRequestClose() {
+    showModal(false);
+  }
 
   return (
     <View style={styles.screen}>
-      <FlatList
-        data={albums}
-        renderItem={renderAlbumCarousel}
-        keyExtractor={({ title }) => title}
-      />
+      <ContentContextProvider>
+        <FlatList
+          data={albums}
+          renderItem={renderAlbumCarousel}
+          keyExtractor={({ title }) => title}
+        />
+      </ContentContextProvider>
       <ContentModal
-        visible={showModal}
-        onRequestClose={closeModal}
-        media={{ type: "image", uri: "https://example.com/image1.jpg" }}
+        visible={isModalShown}
+        onRequestClose={onRequestClose}
+        media={content}
       />
       <Pressable style={styles.addButton} onPress={addAlbum}>
         <Ionicons name="add" size={38} color="white" />

@@ -1,27 +1,24 @@
-import React, { useState } from "react";
-import {
-  View,
-  Modal,
-  Image,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import React, { useRef, useState } from "react";
+import { View, Modal, Image, Text, Pressable, StyleSheet } from "react-native";
 import Video from "react-native-video";
+import DoubleTapPressable from "./DoubleTapPressable";
 
 function ContentModal({ visible, onRequestClose, media }) {
   const [isVideoPaused, setIsVideoPaused] = useState(false);
+  const videoRef = useRef(null);
 
   function handleDoubleTap(evt) {
+    const video = videoRef.current;
+
     const doubleTapSlop = 6;
     const isDoubleTapLeft = evt.nativeEvent.locationX < doubleTapSlop;
     const isDoubleTapRight =
       evt.nativeEvent.locationX > evt.nativeEvent.pageX - doubleTapSlop;
 
     if (isDoubleTapLeft) {
-      media.seek(media.currentTime - 10);
+      video.seek(video.currentTime - 10);
     } else if (isDoubleTapRight) {
-      media.seek(media.currentTime + 10);
+      video.seek(video.currentTime + 10);
     }
   }
 
@@ -41,22 +38,23 @@ function ContentModal({ visible, onRequestClose, media }) {
           />
         )}
         {media.type === "video" && (
-          <TouchableOpacity
+          <DoubleTapPressable
             onPress={() => setIsVideoPaused(!isVideoPaused)}
             onDoubleTap={handleDoubleTap}
             style={styles.media}
           >
             <Video
+              ref={videoRef}
               source={{ uri: media.uri }}
               style={styles.media}
               resizeMode="contain"
               paused={isVideoPaused}
             />
-          </TouchableOpacity>
+          </DoubleTapPressable>
         )}
-        <TouchableOpacity onPress={onRequestClose} style={styles.closeButton}>
+        <Pressable onPress={onRequestClose} style={styles.closeButton}>
           <Text style={styles.closeButtonText}>Close</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </Modal>
   );
