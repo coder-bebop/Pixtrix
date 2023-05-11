@@ -12,7 +12,7 @@ function ProfileScreen() {
   const [albums, setAlbums] = useState(ALBUMS);
   const { isModalShown, content, showModal } = useContext(ContentContext);
 
-  function renderAlbumCarousel({ item }) {
+  function renderCarousel({ item }) {
     return <AlbumCarousel title={item.title} content={item.content} />;
   }
 
@@ -29,7 +29,7 @@ function ProfileScreen() {
       <ContentContextProvider>
         <FlatList
           data={albums}
-          renderItem={renderAlbumCarousel}
+          renderItem={renderCarousel}
           keyExtractor={({ title }) => title}
         />
       </ContentContextProvider>
