@@ -7,9 +7,9 @@ import {
   Pressable,
   Alert,
 } from "react-native";
-import LoadingSpinner from "../components/LoadingSpinner";
-import { AuthContext } from "../store/auth-context";
-import { createUser } from "../utils/auth";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import { AuthContext } from "../../store/auth-context";
+import { createUser } from "../../backend/auth";
 
 function SignUpScreen({ navigation }) {
   const authContext = useContext(AuthContext);

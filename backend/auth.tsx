@@ -4,7 +4,7 @@ import { Alert } from "react-native";
 const BASE_URL = "https://identitytoolkit.googleapis.com/v1/accounts";
 const API_KEY = "AIzaSyA8DzASPQ36LC4-P5awnr0vxrmR0SXG6tw";
 
-const authenticate = async (mode, email, password) => {
+const authenticate = async (mode: string, email: string, password: string) => {
   const { data, status } = await axios.post(
     `${BASE_URL}:${mode}?key=${API_KEY}`,
     {

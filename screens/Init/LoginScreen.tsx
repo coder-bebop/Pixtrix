@@ -7,9 +7,9 @@ import {
   Image,
   Pressable,
 } from "react-native";
-import LoadingSpinner from "../components/LoadingSpinner";
-import { AuthContext } from "../store/auth-context";
-import { login } from "../utils/auth";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import { AuthContext } from "../../store/auth-context";
+import { login } from "../../backend/auth";
 
 function LoginScreen({ navigation }) {
   const authContext = useContext(AuthContext);

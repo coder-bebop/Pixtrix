@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import Carousel from "react-native-snap-carousel";
-import DATA from "../constants/dummyData/HomeData";
+import DATA from "../../constants/dummyData/HomeData";
 
 function HomeScreen() {
   const renderCarouselItem = ({ item }) => {

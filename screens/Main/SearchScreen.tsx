@@ -9,7 +9,7 @@ import {
   Dimensions,
   Pressable,
 } from "react-native";
-import CATEGORIES from "../constants/dummyData/SearchData";
+import CATEGORIES from "../../constants/dummyData/SearchData";
 
 const numColumns = 2;
 const WIDTH = Dimensions.get("window").width;
