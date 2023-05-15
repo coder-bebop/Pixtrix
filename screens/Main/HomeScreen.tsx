@@ -1,48 +1,41 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import Carousel from "react-native-snap-carousel";
-import DATA from "../../constants/dummyData/HomeData";
+import FEATURED_DATA from "../../constants/dummyData/HomeData";
 
 function HomeScreen() {
-  const renderCarouselItem = ({ item }) => {
+  function FeatureCarousel({ data }) {
+    function renderItem({ item }) {
+      return (
+        <Pressable
+          style={({ pressed }) => [
+            styles.carouselItemContainer,
+            pressed && styles.pressed,
+          ]}
+        >
+          <Image source={{ uri: item }} style={styles.carouselItemImage} />
+        </Pressable>
+      );
+    }
     return (
-      <View style={styles.carouselItemContainer}>
-        <Image
-          source={{ uri: item.imageUrl }}
-          style={styles.carouselItemImage}
+      <>
+        <Text style={styles.heading}>{data.title}</Text>
+        <Carousel
+          data={data.content}
+          renderItem={renderItem}
+          sliderWidth={300}
+          itemWidth={250}
         />
-      </View>
+        <View style={styles.reflection} />
+      </>
     );
-  };
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Featured Art</Text>
-      <Carousel
-        data={DATA.trending}
-        renderItem={renderCarouselItem}
-        sliderWidth={300}
-        itemWidth={250}
-      />
-      <View style={styles.reflection} />
-
-      <Text style={styles.heading}>Art Attack</Text>
-      <Carousel
-        data={DATA.artAttack}
-        renderItem={renderCarouselItem}
-        sliderWidth={300}
-        itemWidth={250}
-      />
-      <View style={styles.reflection} />
-
-      <Text style={styles.heading}>Something New</Text>
-      <Carousel
-        data={DATA.somethingNew}
-        renderItem={renderCarouselItem}
-        sliderWidth={300}
-        itemWidth={250}
-      />
-      <View style={styles.reflection} />
+      <FeatureCarousel data={FEATURED_DATA[0]} />
+      <FeatureCarousel data={FEATURED_DATA[1]} />
+      <FeatureCarousel data={FEATURED_DATA[2]} />
     </View>
   );
 }
@@ -66,6 +59,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     height: 200,
   },
+  carouselItemPressable: {
+    height: "100%",
+    width: "100%",
+  },
   carouselItemImage: {
     height: 150,
     width: 200,
@@ -77,6 +74,9 @@ const styles = StyleSheet.create({
     backgroundColor: "gray",
     opacity: 0.2,
     marginVertical: 10,
+  },
+  pressed: {
+    opacity: 0.65,
   },
 });
 

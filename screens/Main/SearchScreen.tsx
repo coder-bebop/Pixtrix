@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   pressed: {
-    opacity: 0.7,
+    opacity: 0.65,
   },
 });
 
