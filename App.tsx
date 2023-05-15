@@ -13,6 +13,7 @@ import {
 } from "./screens";
 import { useContext } from "react";
 import { AuthContext } from "./store/auth-context";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -21,9 +22,33 @@ export default function App() {
   function MainScreens() {
     return (
       <BottomTabs.Navigator initialRouteName="Home">
-        <BottomTabs.Screen name="Home" component={HomeScreen} />
-        <BottomTabs.Screen name="Search" component={SearchScreen} />
-        <BottomTabs.Screen name="Profile" component={ProfileScreen} />
+        <BottomTabs.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="home" color={color} size={size} />
+            ),
+          }}
+        />
+        <BottomTabs.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="search" color={color} size={size} />
+            ),
+          }}
+        />
+        <BottomTabs.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="md-person" color={color} size={size} />
+            ),
+          }}
+        />
       </BottomTabs.Navigator>
     );
   }
