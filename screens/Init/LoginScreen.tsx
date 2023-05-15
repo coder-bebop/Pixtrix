@@ -49,7 +49,7 @@ function LoginScreen({ navigation }) {
     <View style={styles.container}>
       <Image
         style={styles.logo}
-        source={require("../assets/pixtrix_logo.png")}
+        source={require("../../assets/pixtrix_logo.png")}
       />
       <TextInput
         style={styles.input}
