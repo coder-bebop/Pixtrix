@@ -1,18 +1,9 @@
 import { useRef, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  Image,
-  Pressable,
-  Animated,
-} from "react-native";
+import { StyleSheet, Text, View, Dimensions } from "react-native";
 import Carousel from "react-native-snap-carousel";
 import AlbumTile from "./AlbumTile";
 
-const { width: viewportWidth, height: viewportHeight } =
-  Dimensions.get("window");
+const { width: viewportWidth } = Dimensions.get("window");
 
 function AlbumCarousel({ title, content }) {
   const [selectedItem, setSelectedItem] = useState(-1);
