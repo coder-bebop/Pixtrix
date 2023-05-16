@@ -21,7 +21,7 @@ function SearchScreen() {
     <Pressable
       style={({ pressed }) => [styles.itemContainer, pressed && styles.pressed]}
     >
-      <Image source={{ uri: item.image }} style={styles.categoryImage} />
+      <Image source={{ uri: item.content }} style={styles.categoryImage} />
       <Text style={styles.categoryTitle}>{item.title}</Text>
     </Pressable>
   );
@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 10,
-    paddingTop: 20,
     backgroundColor: "#fff",
   },
   searchInput: {

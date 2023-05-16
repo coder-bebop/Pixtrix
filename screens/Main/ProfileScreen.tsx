@@ -17,7 +17,7 @@ function ProfileScreen() {
   }
 
   function addAlbum(newAlbum) {
-    setAlbums((previousAlbums) => [...previousAlbums, newAlbum]);
+    //setAlbums((previousAlbums) => [...previousAlbums, newAlbum]);
   }
 
   function onRequestClose() {

@@ -1,4 +1,4 @@
-export default FEATURED_DATA = [
+export default FEATURED = [
   {
     title: "Trending",
     content: [
@@ -8,7 +8,7 @@ export default FEATURED_DATA = [
     ],
   },
   {
-    title: "Trending",
+    title: "Art Attack",
     content: [
       "https://example.com/image1.jpg",
       "https://example.com/image2.jpg",
@@ -16,7 +16,7 @@ export default FEATURED_DATA = [
     ],
   },
   {
-    title: "Trending",
+    title: "Something Fresh",
     content: [
       "https://example.com/image1.jpg",
       "https://example.com/image2.jpg",
