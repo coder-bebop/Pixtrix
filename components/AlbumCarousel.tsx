@@ -29,18 +29,16 @@ function AlbumCarousel({ title, content }) {
 
 const styles = StyleSheet.create({
   carouselContainer: {
-    marginTop: 10,
-    marginBottom: 10,
+    alignItems: "center",
+    marginVertical: 10,
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 10,
-    marginLeft: 30,
+    margin: 8,
   },
   carousel: {
     flexGrow: 1,
-    marginBottom: 10,
   },
   carouselItem: {
     backgroundColor: "white",
@@ -48,9 +46,7 @@ const styles = StyleSheet.create({
     height: viewportHeight * 0.2,
     width: viewportWidth * 0.5,
     padding: 10,
-    marginBottom: 20,
-    alignItems: "center",
-    justifyContent: "center",
+    marginBottom: 30,
   },
 });
 

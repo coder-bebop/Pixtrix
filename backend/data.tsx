@@ -1,11 +1,12 @@
 import axios from "axios";
 import { Data } from "../constants/models/content";
-
-const BACKEND_URL = "https://pixtrix-6e370-default-rtdb.firebaseio.com";
+import { firebaseConfig } from "./firebase";
 
 async function getData(endpoint: string): Promise<Data[]> {
   try {
-    const response = await axios.get(`${BACKEND_URL}/${endpoint}.json`);
+    const response = await axios.get(
+      `${firebaseConfig.databaseURL}/${endpoint}.json`
+    );
     const data = response?.data;
 
     const requestedData: Data[] = Object.keys(data).map((key) => ({
@@ -20,14 +21,16 @@ async function getData(endpoint: string): Promise<Data[]> {
   }
 }
 
-export function getFeaturedData() {
+function getFeaturedData() {
   return getData("featured");
 }
 
-export function getCategoriesData() {
+function getCategoriesData() {
   return getData("categories");
 }
 
-export function getProfileData() {
+function getProfileData() {
   return getData("profile");
 }
+
+export { getFeaturedData, getCategoriesData, getProfileData };

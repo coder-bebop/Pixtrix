@@ -33,14 +33,17 @@ function ProfileScreen() {
           keyExtractor={({ title }) => title}
         />
       </ContentContextProvider>
+      <Pressable
+        onPress={addAlbum}
+        style={({ pressed }) => [styles.addButton, pressed && styles.pressed]}
+      >
+        <Ionicons name="add" size={38} color="white" />
+      </Pressable>
       <ContentModal
         visible={isModalShown}
         onRequestClose={onRequestClose}
         media={content}
       />
-      <Pressable style={styles.addButton} onPress={addAlbum}>
-        <Ionicons name="add" size={38} color="white" />
-      </Pressable>
     </View>
   );
 }
@@ -50,12 +53,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   addButton: {
+    alignSelf: "flex-end",
     width: 64,
     height: 64,
     borderRadius: 32,
     backgroundColor: "blue",
     justifyContent: "center",
     alignItems: "center",
+    flex: 0,
+  },
+  pressed: {
+    opacity: 0.65,
   },
 });
 
