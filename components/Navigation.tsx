@@ -10,7 +10,7 @@ import {
   ProfileScreen,
 } from "../screens";
 import { useContext } from "react";
-import { AuthContext } from "../store/auth-context";
+import AuthContextProvider, { AuthContext } from "../store/auth-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Stack = createNativeStackNavigator();
@@ -66,9 +66,11 @@ function Navigation() {
   // TODO:
   // isAuthenticated ? <InitScreens /> : <MainScreens />
   return (
-    <NavigationContainer>
-      {false ? <InitScreens /> : <MainScreens />}
-    </NavigationContainer>
+    <AuthContextProvider>
+      <NavigationContainer>
+        {false ? <InitScreens /> : <MainScreens />}
+      </NavigationContainer>
+    </AuthContextProvider>
   );
 }
 
