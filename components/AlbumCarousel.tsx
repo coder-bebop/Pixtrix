@@ -1,25 +1,15 @@
-import { useRef, useState } from "react";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import Carousel from "react-native-snap-carousel";
 import AlbumTile from "./AlbumTile";
 
-const { width: viewportWidth } = Dimensions.get("window");
+const { width: viewportWidth, height: viewportHeight } =
+  Dimensions.get("window");
 
 function AlbumCarousel({ title, content }) {
-  const [selectedItem, setSelectedItem] = useState(-1);
-
-  function renderTile({ item, index }) {
+  function renderTile({ item }) {
     return (
-      <AlbumTile
-        type={item.type}
-        uri={item.uri}
-        isSelected={selectedItem === index}
-      />
+      <AlbumTile type={item.type} uri={item.uri} style={styles.carouselItem} />
     );
-  }
-
-  function snapToItem(index) {
-    setSelectedItem(index);
   }
 
   return (
@@ -28,11 +18,10 @@ function AlbumCarousel({ title, content }) {
       <Carousel
         data={content}
         renderItem={renderTile}
-        sliderWidth={viewportWidth}
-        itemWidth={viewportWidth * 0.25}
         containerCustomStyle={styles.carousel}
-        onSnapToItem={snapToItem}
-        layout="default"
+        sliderWidth={viewportWidth}
+        itemWidth={viewportWidth * 0.35}
+        autoplay={true}
       />
     </View>
   );
@@ -47,11 +36,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 10,
-    marginLeft: 10,
+    marginLeft: 30,
   },
   carousel: {
     flexGrow: 1,
     marginBottom: 10,
+  },
+  carouselItem: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    height: viewportHeight * 0.2,
+    width: viewportWidth * 0.5,
+    padding: 10,
+    marginBottom: 20,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
