@@ -12,6 +12,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { Data } from "../../constants/models/content";
 
 function ProfileScreen() {
+  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Data[]>([]);
   const { isModalShown, content, showModal } = useContext(ContentContext);
 
@@ -28,15 +29,25 @@ function ProfileScreen() {
   }
 
   useEffect(() => {
+    const intervalId = setInterval(() => {
+      retrieveData();
+    }, 1000);
+
     async function retrieveData() {
       const profileData = await getProfileData();
-      setData(profileData);
+      if (profileData.length !== 0) {
+        setData(profileData);
+        setIsLoading(false);
+        clearInterval(intervalId);
+      }
     }
 
     retrieveData();
+
+    return () => clearInterval(intervalId);
   }, []);
 
-  if (data.length === 0) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 

@@ -20,6 +20,7 @@ const itemWidth = (WIDTH - 20) / numColumns;
 const itemHeight = itemWidth * 1.2;
 
 function SearchScreen() {
+  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Data[]>([]);
 
   function renderCategory({ item }) {
@@ -37,15 +38,25 @@ function SearchScreen() {
   }
 
   useEffect(() => {
+    const intervalId = setInterval(() => {
+      retrieveData();
+    }, 1000);
+
     async function retrieveData() {
       const categoriesData = await getCategoriesData();
-      setData(categoriesData);
+      if (categoriesData.length !== 0) {
+        setData(categoriesData);
+        setIsLoading(false);
+        clearInterval(intervalId);
+      }
     }
 
     retrieveData();
+
+    return () => clearInterval(intervalId);
   }, []);
 
-  if (data.length === 0) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 

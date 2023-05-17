@@ -6,6 +6,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { Data } from "../../constants/models/content";
 
 function HomeScreen() {
+  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Data[]>([]);
 
   function renderCarousel({ item }) {
@@ -13,15 +14,25 @@ function HomeScreen() {
   }
 
   useEffect(() => {
+    const intervalId = setInterval(() => {
+      retrieveData();
+    }, 1000);
+
     async function retrieveData() {
       const featuredData = await getFeaturedData();
-      setData(featuredData);
+      if (featuredData.length !== 0) {
+        setData(featuredData);
+        setIsLoading(false);
+        clearInterval(intervalId);
+      }
     }
 
     retrieveData();
+
+    return () => clearInterval(intervalId);
   }, []);
 
-  if (data.length === 0) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 
