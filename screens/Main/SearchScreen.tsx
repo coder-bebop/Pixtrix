@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,7 +9,10 @@ import {
   Dimensions,
   Pressable,
 } from "react-native";
+import { getCategoriesData } from "../../backend/readData";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import CATEGORIES from "../../constants/dummyData/SearchData";
+import { Data } from "../../constants/models/content";
 
 const numColumns = 2;
 const WIDTH = Dimensions.get("window").width;
@@ -17,20 +20,40 @@ const itemWidth = (WIDTH - 20) / numColumns;
 const itemHeight = itemWidth * 1.2;
 
 function SearchScreen() {
-  const renderCategory = ({ item }) => (
-    <Pressable
-      style={({ pressed }) => [styles.itemContainer, pressed && styles.pressed]}
-    >
-      <Image source={{ uri: item.content }} style={styles.categoryImage} />
-      <Text style={styles.categoryTitle}>{item.title}</Text>
-    </Pressable>
-  );
+  const [data, setData] = useState<Data[]>([]);
+
+  function renderCategory({ item }) {
+    return (
+      <Pressable
+        style={({ pressed }) => [
+          styles.itemContainer,
+          pressed && styles.pressed,
+        ]}
+      >
+        <Image source={{ uri: item.content }} style={styles.categoryImage} />
+        <Text style={styles.categoryTitle}>{item.title}</Text>
+      </Pressable>
+    );
+  }
+
+  useEffect(() => {
+    async function retrieveData() {
+      const categoriesData = await getCategoriesData();
+      setData(categoriesData);
+    }
+
+    retrieveData();
+  }, []);
+
+  if (data.length === 0) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <View style={styles.container}>
       <TextInput style={styles.searchInput} placeholder="Search" />
       <FlatList
-        data={CATEGORIES}
+        data={data}
         renderItem={renderCategory}
         keyExtractor={({ title }) => title}
         numColumns={numColumns}

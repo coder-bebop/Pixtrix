@@ -7,9 +7,12 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import ContentContextProvider, {
   ContentContext,
 } from "../../store/content-context";
+import { getProfileData } from "../../backend/readData";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import { Data } from "../../constants/models/content";
 
 function ProfileScreen() {
-  const [albums, setAlbums] = useState(ALBUMS);
+  const [data, setData] = useState<Data[]>([]);
   const { isModalShown, content, showModal } = useContext(ContentContext);
 
   function renderCarousel({ item }) {
@@ -24,11 +27,24 @@ function ProfileScreen() {
     showModal(false);
   }
 
+  useEffect(() => {
+    async function retrieveData() {
+      const profileData = await getProfileData();
+      setData(profileData);
+    }
+
+    retrieveData();
+  }, []);
+
+  if (data.length === 0) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <View style={styles.screen}>
       <ContentContextProvider>
         <FlatList
-          data={albums}
+          data={data}
           renderItem={renderCarousel}
           keyExtractor={({ title }) => title}
         />
