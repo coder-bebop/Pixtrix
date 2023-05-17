@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import { getCategoriesData } from "../../backend/readData";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import CATEGORIES from "../../constants/dummyData/SearchData";
 import { Data } from "../../constants/models/content";
 
 const numColumns = 2;

@@ -2,7 +2,6 @@ import { View, StyleSheet, FlatList, Pressable } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import AlbumCarousel from "../../components/AlbumCarousel";
 import ContentModal from "../../components/ContentModal";
-import ALBUMS from "../../constants/dummyData/ProfileData";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import ContentContextProvider, {
   ContentContext,
