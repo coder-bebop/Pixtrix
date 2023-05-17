@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import Carousel from "react-native-snap-carousel";
-import AlbumTile from "./AlbumTile";
+import CarouselTile from "./CarouselTile";
 
 const { width: viewportWidth, height: viewportHeight } =
   Dimensions.get("window");
@@ -8,7 +8,11 @@ const { width: viewportWidth, height: viewportHeight } =
 function AlbumCarousel({ title, content }) {
   function renderTile({ item }) {
     return (
-      <AlbumTile type={item.type} uri={item.uri} style={styles.carouselItem} />
+      <CarouselTile
+        type={item.type}
+        uri={item.uri}
+        style={styles.carouselItem}
+      />
     );
   }
 

@@ -1,5 +1,5 @@
-import { createContext, useContext, useState } from "react";
-import { Content, ContentType } from "../constants/models/content";
+import { createContext, useState } from "react";
+import { Content, ContentType } from "../../constants/models/content";
 
 export const ContentContext = createContext({
   isModalShown: false,

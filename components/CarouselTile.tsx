@@ -2,9 +2,9 @@ import { useContext } from "react";
 import { Image, Pressable, StyleSheet, Text } from "react-native";
 import Thumbnail from "react-native-video";
 import { ContentType } from "../constants/models/content";
-import { ContentContext } from "../store/content-context";
+import { ContentContext } from "../store/context/content";
 
-function AlbumTile({ type, uri, style }) {
+function CarouselTile({ type, uri, style }) {
   const { changeContent } = useContext(ContentContext);
 
   function onPressChangeContent() {
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AlbumTile;
+export default CarouselTile;

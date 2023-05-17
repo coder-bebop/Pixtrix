@@ -1,36 +1,29 @@
 import { View, StyleSheet, FlatList, Pressable } from "react-native";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AlbumCarousel from "../../components/AlbumCarousel";
 import ContentModal from "../../components/ContentModal";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import ContentContextProvider, {
-  ContentContext,
-} from "../../store/content-context";
 import { getProfileData } from "../../backend/readData";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { Data } from "../../constants/models/content";
+import { POLLING_TIME } from "../../constants/values";
 
 function ProfileScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Data[]>([]);
-  const { isModalShown, content, showModal } = useContext(ContentContext);
 
   function renderCarousel({ item }) {
     return <AlbumCarousel title={item.title} content={item.content} />;
   }
 
   function addAlbum(newAlbum) {
-    //setAlbums((previousAlbums) => [...previousAlbums, newAlbum]);
-  }
-
-  function onRequestClose() {
-    showModal(false);
+    //setData((previousAlbums) => [...previousAlbums, newAlbum]);
   }
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       retrieveData();
-    }, 1000);
+    }, POLLING_TIME);
 
     async function retrieveData() {
       const profileData = await getProfileData();
@@ -52,24 +45,18 @@ function ProfileScreen() {
 
   return (
     <View style={styles.screen}>
-      <ContentContextProvider>
-        <FlatList
-          data={data}
-          renderItem={renderCarousel}
-          keyExtractor={({ title }) => title}
-        />
-      </ContentContextProvider>
+      <FlatList
+        data={data}
+        renderItem={renderCarousel}
+        keyExtractor={({ title }) => title}
+      />
       <Pressable
         onPress={addAlbum}
         style={({ pressed }) => [styles.addButton, pressed && styles.pressed]}
       >
         <Ionicons name="add" size={38} color="white" />
       </Pressable>
-      <ContentModal
-        visible={isModalShown}
-        onRequestClose={onRequestClose}
-        media={content}
-      />
+      <ContentModal />
     </View>
   );
 }

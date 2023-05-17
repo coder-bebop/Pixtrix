@@ -1,11 +1,13 @@
-import React, { useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { View, Modal, Image, Text, Pressable, StyleSheet } from "react-native";
 import Video from "react-native-video";
+import { ContentContext } from "../store/context/content";
 import DoubleTapPressable from "./DoubleTapPressable";
 
-function ContentModal({ visible, onRequestClose, media }) {
+function ContentModal() {
   const [isVideoPaused, setIsVideoPaused] = useState(false);
   const videoRef = useRef(null);
+  const { isModalShown, showModal, content } = useContext(ContentContext);
 
   function handleDoubleTap(evt) {
     const video = videoRef.current;
@@ -22,22 +24,30 @@ function ContentModal({ visible, onRequestClose, media }) {
     }
   }
 
+  function closeModal() {
+    showModal(false);
+  }
+
+  useEffect(() => {
+    showModal(true);
+  }, [content]);
+
   return (
     <Modal
       animationType="slide"
       transparent={true}
-      visible={visible}
-      onRequestClose={onRequestClose}
+      visible={isModalShown}
+      onRequestClose={closeModal}
     >
       <View style={styles.container}>
-        {media.type === "image" && (
+        {content.type === "image" && (
           <Image
-            source={{ uri: media.uri }}
+            source={{ uri: content.uri }}
             style={styles.media}
             resizeMode="contain"
           />
         )}
-        {media.type === "video" && (
+        {content.type === "video" && (
           <DoubleTapPressable
             onPress={() => setIsVideoPaused(!isVideoPaused)}
             onDoubleTap={handleDoubleTap}
@@ -45,14 +55,14 @@ function ContentModal({ visible, onRequestClose, media }) {
           >
             <Video
               ref={videoRef}
-              source={{ uri: media.uri }}
+              source={{ uri: content.uri }}
               style={styles.media}
               resizeMode="contain"
               paused={isVideoPaused}
             />
           </DoubleTapPressable>
         )}
-        <Pressable onPress={onRequestClose} style={styles.closeButton}>
+        <Pressable onPress={closeModal} style={styles.closeButton}>
           <Text style={styles.closeButtonText}>Close</Text>
         </Pressable>
       </View>

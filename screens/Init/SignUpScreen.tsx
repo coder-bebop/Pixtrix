@@ -8,7 +8,7 @@ import {
   Alert,
 } from "react-native";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import { AuthContext } from "../../store/auth-context";
+import { AuthContext } from "../../store/context/auth";
 import { createUser } from "../../backend/auth";
 
 function SignUpScreen({ navigation }) {

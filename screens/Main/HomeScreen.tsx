@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import { getFeaturedData } from "../../backend/readData";
+import ContentModal from "../../components/ContentModal";
 import FeatureCarousel from "../../components/FeatureCarousel";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { Data } from "../../constants/models/content";
+import { POLLING_TIME } from "../../constants/values";
 
 function HomeScreen() {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,7 +18,7 @@ function HomeScreen() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       retrieveData();
-    }, 1000);
+    }, POLLING_TIME);
 
     async function retrieveData() {
       const featuredData = await getFeaturedData();
@@ -43,6 +45,7 @@ function HomeScreen() {
         renderItem={renderCarousel}
         keyExtractor={({ title }) => title}
       />
+      <ContentModal />
     </View>
   );
 }

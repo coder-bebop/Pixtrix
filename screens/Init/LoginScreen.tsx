@@ -8,7 +8,7 @@ import {
   Pressable,
 } from "react-native";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import { AuthContext } from "../../store/auth-context";
+import { AuthContext } from "../../store/context/auth";
 import { login } from "../../backend/auth";
 
 function LoginScreen({ navigation }) {

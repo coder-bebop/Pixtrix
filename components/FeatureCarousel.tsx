@@ -1,17 +1,15 @@
-import { Image, Pressable, Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import Carousel from "react-native-snap-carousel";
+import CarouselTile from "./CarouselTile";
 
 function FeatureCarousel({ title, content }) {
-  function renderItem({ item }) {
+  function renderTile({ item }) {
     return (
-      <Pressable
-        style={({ pressed }) => [
-          styles.carouselItemContainer,
-          pressed && styles.pressed,
-        ]}
-      >
-        <Image source={{ uri: item }} style={styles.carouselItemImage} />
-      </Pressable>
+      <CarouselTile
+        type={item.type}
+        uri={item.uri}
+        style={styles.carouselItemContainer}
+      />
     );
   }
 
@@ -20,7 +18,7 @@ function FeatureCarousel({ title, content }) {
       <Text style={styles.heading}>{title}</Text>
       <Carousel
         data={content}
-        renderItem={renderItem}
+        renderItem={renderTile}
         sliderWidth={400}
         itemWidth={300}
       />

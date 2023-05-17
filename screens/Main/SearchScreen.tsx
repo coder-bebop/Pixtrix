@@ -12,6 +12,7 @@ import {
 import { getCategoriesData } from "../../backend/readData";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { Data } from "../../constants/models/content";
+import { POLLING_TIME } from "../../constants/values";
 
 const numColumns = 2;
 const WIDTH = Dimensions.get("window").width;
@@ -39,7 +40,7 @@ function SearchScreen() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       retrieveData();
-    }, 1000);
+    }, POLLING_TIME);
 
     async function retrieveData() {
       const categoriesData = await getCategoriesData();
