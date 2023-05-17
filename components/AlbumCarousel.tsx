@@ -21,7 +21,6 @@ function AlbumCarousel({ title, content }) {
         containerCustomStyle={styles.carousel}
         sliderWidth={viewportWidth}
         itemWidth={viewportWidth * 0.35}
-        autoplay={true}
       />
     </View>
   );
