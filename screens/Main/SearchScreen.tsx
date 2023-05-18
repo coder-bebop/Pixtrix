@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -10,9 +10,7 @@ import {
   Pressable,
 } from "react-native";
 import { getCategoriesData } from "../../backend/readData";
-import LoadingSpinner from "../../components/LoadingSpinner";
 import { Data } from "../../constants/models/content";
-import { POLLING_TIME } from "../../constants/values";
 import MainHandler from "./MainHandler";
 
 const numColumns = 2;

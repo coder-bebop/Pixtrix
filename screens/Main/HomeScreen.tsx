@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import { getFeaturedData } from "../../backend/readData";
 import ContentModal from "../../components/ContentModal";
 import FeatureCarousel from "../../components/FeatureCarousel";
-import LoadingSpinner from "../../components/LoadingSpinner";
 import { Data } from "../../constants/models/content";
-import { POLLING_TIME } from "../../constants/values";
 import MainHandler from "./MainHandler";
 
 function HomeScreen() {

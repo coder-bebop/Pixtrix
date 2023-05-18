@@ -1,10 +1,9 @@
 import { View, StyleSheet, FlatList, Pressable } from "react-native";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AlbumCarousel from "../../components/AlbumCarousel";
 import ContentModal from "../../components/ContentModal";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { getProfileData } from "../../backend/readData";
-import LoadingSpinner from "../../components/LoadingSpinner";
 import { Data } from "../../constants/models/content";
 import MainHandler from "./MainHandler";
 
