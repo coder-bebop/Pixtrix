@@ -6,10 +6,9 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { getProfileData } from "../../backend/readData";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { Data } from "../../constants/models/content";
-import { POLLING_TIME } from "../../constants/values";
+import MainHandler from "./MainHandler";
 
 function ProfileScreen() {
-  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Data[]>([]);
 
   function renderCarousel({ item }) {
@@ -20,36 +19,15 @@ function ProfileScreen() {
     //setData((previousAlbums) => [...previousAlbums, newAlbum]);
   }
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      retrieveData();
-    }, POLLING_TIME);
-
-    async function retrieveData() {
-      const profileData = await getProfileData();
-      if (profileData.length !== 0) {
-        setData(profileData);
-        setIsLoading(false);
-        clearInterval(intervalId);
-      }
-    }
-
-    retrieveData();
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
   return (
     <View style={styles.screen}>
-      <FlatList
-        data={data}
-        renderItem={renderCarousel}
-        keyExtractor={({ title }) => title}
-      />
+      <MainHandler fetchDataCallback={getProfileData} setDataCallback={setData}>
+        <FlatList
+          data={data}
+          renderItem={renderCarousel}
+          keyExtractor={({ title }) => title}
+        />
+      </MainHandler>
       <Pressable
         onPress={addAlbum}
         style={({ pressed }) => [styles.addButton, pressed && styles.pressed]}

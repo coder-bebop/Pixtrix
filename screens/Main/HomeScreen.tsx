@@ -6,45 +6,27 @@ import FeatureCarousel from "../../components/FeatureCarousel";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { Data } from "../../constants/models/content";
 import { POLLING_TIME } from "../../constants/values";
+import MainHandler from "./MainHandler";
 
 function HomeScreen() {
-  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Data[]>([]);
 
   function renderCarousel({ item }) {
     return <FeatureCarousel title={item.title} content={item.content} />;
   }
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      retrieveData();
-    }, POLLING_TIME);
-
-    async function retrieveData() {
-      const featuredData = await getFeaturedData();
-      if (featuredData.length !== 0) {
-        setData(featuredData);
-        setIsLoading(false);
-        clearInterval(intervalId);
-      }
-    }
-
-    retrieveData();
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
   return (
     <View style={styles.screen}>
-      <FlatList
-        data={data}
-        renderItem={renderCarousel}
-        keyExtractor={({ title }) => title}
-      />
+      <MainHandler
+        fetchDataCallback={getFeaturedData}
+        setDataCallback={setData}
+      >
+        <FlatList
+          data={data}
+          renderItem={renderCarousel}
+          keyExtractor={({ title }) => title}
+        />
+      </MainHandler>
       <ContentModal />
     </View>
   );

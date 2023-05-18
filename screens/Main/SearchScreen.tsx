@@ -13,6 +13,7 @@ import { getCategoriesData } from "../../backend/readData";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { Data } from "../../constants/models/content";
 import { POLLING_TIME } from "../../constants/values";
+import MainHandler from "./MainHandler";
 
 const numColumns = 2;
 const WIDTH = Dimensions.get("window").width;
@@ -20,7 +21,6 @@ const itemWidth = (WIDTH - 20) / numColumns;
 const itemHeight = itemWidth * 1.2;
 
 function SearchScreen() {
-  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Data[]>([]);
 
   function renderCategory({ item }) {
@@ -37,40 +37,22 @@ function SearchScreen() {
     );
   }
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      retrieveData();
-    }, POLLING_TIME);
-
-    async function retrieveData() {
-      const categoriesData = await getCategoriesData();
-      if (categoriesData.length !== 0) {
-        setData(categoriesData);
-        setIsLoading(false);
-        clearInterval(intervalId);
-      }
-    }
-
-    retrieveData();
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
   return (
     <View style={styles.container}>
       <TextInput style={styles.searchInput} placeholder="Search" />
-      <FlatList
-        data={data}
-        renderItem={renderCategory}
-        keyExtractor={({ title }) => title}
-        numColumns={numColumns}
-        columnWrapperStyle={styles.row}
-        contentContainerStyle={styles.categoryList}
-      />
+      <MainHandler
+        fetchDataCallback={getCategoriesData}
+        setDataCallback={setData}
+      >
+        <FlatList
+          data={data}
+          renderItem={renderCategory}
+          keyExtractor={({ title }) => title}
+          numColumns={numColumns}
+          columnWrapperStyle={styles.row}
+          contentContainerStyle={styles.categoryList}
+        />
+      </MainHandler>
     </View>
   );
 }
