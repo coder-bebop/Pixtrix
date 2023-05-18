@@ -5,6 +5,7 @@ import { ContentContext } from "../store/context/content";
 import DoubleTapPressable from "./DoubleTapPressable";
 
 function ContentModal() {
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const [isVideoPaused, setIsVideoPaused] = useState(false);
   const { isModalShown, content, showModal } = useContext(ContentContext);
   const videoRef = useRef(null);
@@ -33,6 +34,11 @@ function ContentModal() {
   }
 
   useEffect(() => {
+    if (isFirstRender) {
+      setIsFirstRender(false);
+      return;
+    }
+
     showModal(true);
   }, [content]);
 

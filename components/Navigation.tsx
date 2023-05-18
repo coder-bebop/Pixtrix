@@ -11,7 +11,9 @@ import {
 } from "../screens";
 import { useContext } from "react";
 import AuthContextProvider, { AuthContext } from "../store/context/auth";
-import ContentContextProvider from "../store/context/content";
+import ContentContextProvider, {
+  ContentContext,
+} from "../store/context/content";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Stack = createNativeStackNavigator();
