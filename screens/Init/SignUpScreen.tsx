@@ -8,20 +8,16 @@ import {
   Alert,
 } from "react-native";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { AuthType } from "../../constants/models/auth";
 import { AuthContext } from "../../store/context/auth";
-import { createUser } from "../../backend/auth";
 
 function SignUpScreen({ navigation }) {
-  const authContext = useContext(AuthContext);
-  const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const { authenticate } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
     confirmPassword: "",
   });
-
-  const changeUserInputBound = (identifier) =>
-    changeUserInput.bind(this, identifier);
 
   async function handleSignUp() {
     const { email, password, confirmPassword } = userInfo;
@@ -53,17 +49,12 @@ function SignUpScreen({ navigation }) {
       return;
     }
 
-    setIsAuthenticating(true);
-
     try {
-      const token = await createUser(email, password);
-      authContext.authenticate(token);
-      navigation.navigate("Confirmation");
+      const token = await authenticate(AuthType.Create, email, password);
+      navigation.navigate("Confirmation", { params: { token: token } });
     } catch (error) {
       console.error(error);
     }
-
-    setIsAuthenticating(false);
   }
 
   function changeUserInput(identifier, newInfo) {
@@ -78,7 +69,7 @@ function SignUpScreen({ navigation }) {
         style={styles.input}
         placeholder="Email"
         value={userInfo.email}
-        onChangeText={changeUserInputBound("email")}
+        onChangeText={changeUserInput.bind(this, "email")}
         autoCapitalize="none"
         autoCorrect={false}
         autoComplete="off"
@@ -91,7 +82,7 @@ function SignUpScreen({ navigation }) {
         autoCapitalize="none"
         autoCorrect={false}
         autoComplete="off"
-        onChangeText={changeUserInputBound("password")}
+        onChangeText={changeUserInput.bind(this, "password")}
       />
       <TextInput
         style={styles.input}
@@ -101,7 +92,7 @@ function SignUpScreen({ navigation }) {
         autoCapitalize="none"
         autoCorrect={false}
         autoComplete="off"
-        onChangeText={changeUserInputBound("confirmPassword")}
+        onChangeText={changeUserInput.bind(this, "confirmPassword")}
       />
       <Pressable style={styles.button} onPress={handleSignUp}>
         <Text style={styles.buttonText}>Sign up</Text>

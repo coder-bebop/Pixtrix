@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   TextInput,
@@ -8,29 +8,24 @@ import {
   Pressable,
 } from "react-native";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { AuthType } from "../../constants/models/auth";
 import { AuthContext } from "../../store/context/auth";
-import { login } from "../../backend/auth";
 
 function LoginScreen({ navigation }) {
-  const authContext = useContext(AuthContext);
+  const { authenticate } = useContext(AuthContext);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
   });
-  const changeUserInputBound = (identifier) =>
-    changeUserInput.bind(this, identifier);
 
   async function handleLogin() {
     setIsAuthenticated(false);
+
     try {
       const { email, password } = userInfo;
-      const token = await login(email, password);
-      authContext.authenticate(token);
-      console.debug(token);
-      setIsAuthenticated(true);
-
-      navigation.navigate("Main", { screen: "Home" });
+      const token = await authenticate(AuthType.LogIn, email, password);
+      setIsAuthenticated(!!token);
     } catch (error) {
       console.log("Error signing in with email and password:", error);
     }
@@ -40,11 +35,17 @@ function LoginScreen({ navigation }) {
     navigation.navigate("SignUp");
   }
 
-  function changeUserInput(identifier, newInfo) {
+  function handleUserInput(identifier, newInfo) {
     setUserInfo((currentInfo) => {
       return { ...currentInfo, [identifier]: newInfo };
     });
   }
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigation.navigate("Main", { screen: "Home" });
+    }
+  }, [isAuthenticated]);
 
   return (
     <View style={styles.container}>
@@ -59,7 +60,7 @@ function LoginScreen({ navigation }) {
         autoCapitalize="none"
         autoCorrect={false}
         autoComplete="off"
-        onChangeText={changeUserInputBound("email")}
+        onChangeText={handleUserInput.bind(this, "email")}
       />
       <TextInput
         style={styles.input}
@@ -69,7 +70,7 @@ function LoginScreen({ navigation }) {
         autoCapitalize="none"
         autoCorrect={false}
         autoComplete="off"
-        onChangeText={changeUserInputBound("password")}
+        onChangeText={handleUserInput.bind(this, "password")}
       />
       <Pressable style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>

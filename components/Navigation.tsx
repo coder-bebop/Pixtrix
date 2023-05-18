@@ -11,16 +11,14 @@ import {
 } from "../screens";
 import { useContext } from "react";
 import AuthContextProvider, { AuthContext } from "../store/context/auth";
-import ContentContextProvider, {
-  ContentContext,
-} from "../store/context/content";
+import ContentContextProvider from "../store/context/content";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
 
 function Navigation() {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   function MainScreens() {
     return (
@@ -64,16 +62,15 @@ function Navigation() {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="Confirmation" component={ConfirmationScreen} />
+        <Stack.Screen name="Main" component={MainScreens} />
       </Stack.Navigator>
     );
   }
 
-  // TODO:
-  // isAuthenticated ? <InitScreens /> : <MainScreens />
   return (
     <AuthContextProvider>
       <NavigationContainer>
-        {!isAuthenticated ? <InitScreens /> : <MainScreens />}
+        <InitScreens />
       </NavigationContainer>
     </AuthContextProvider>
   );

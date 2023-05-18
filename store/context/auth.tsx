@@ -1,28 +1,65 @@
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  User,
+  UserCredential,
+} from "firebase/auth";
 import { createContext, useState } from "react";
+import { auth } from "../../backend/firebase";
+import { AuthType } from "../../constants/models/auth";
 
 export const AuthContext = createContext({
-  tokenId: "",
-  isAuthenticated: false,
-  authenticate: (token: string) => {},
+  user: null as User,
+  getToken: (forceRefresh = true): Promise<string> =>
+    new Promise<string>(() => {}),
+  authenticate: (
+    mode: AuthType,
+    email: string,
+    password: string
+  ): Promise<string> => new Promise<string>(() => {}),
   logout: () => {},
 });
 
 function AuthContextProvider({ children }) {
-  const [authToken, setAuthToken] = useState("");
+  const [user, setUser] = useState<User>(null);
 
-  function authenticateUser(token) {
-    setAuthToken(token);
+  function getToken(forceRefresh = true) {
+    return user?.getIdToken(forceRefresh);
   }
 
-  function logoutUser() {
-    setAuthToken(null);
+  async function authenticate(mode: AuthType, email: string, password: string) {
+    let callback: Function;
+
+    try {
+      if (mode === AuthType.Create) {
+        callback = createUserWithEmailAndPassword;
+      } else if (mode === AuthType.LogIn) {
+        callback = signInWithEmailAndPassword;
+      }
+
+      const userCredential: UserCredential = await callback(
+        auth,
+        email,
+        password
+      );
+
+      setUser(userCredential?.user);
+
+      return userCredential?.user?.getIdToken(true);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  function logout() {
+    setUser(null);
   }
 
   const contextValue = {
-    tokenId: authToken,
-    isAuthenticated: !!authToken,
-    authenticate: authenticateUser,
-    logout: logoutUser,
+    user: user,
+    getToken: getToken,
+    authenticate: authenticate,
+    logout: logout,
   };
 
   return (

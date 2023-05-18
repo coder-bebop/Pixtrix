@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
+import { getAuth } from "firebase/auth";
 
-const BASE_URL = "https://identitytoolkit.googleapis.com/v1/accounts";
+const baseURL = "https://identitytoolkit.googleapis.com/v1/accounts";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA8DzASPQ36LC4-P5awnr0vxrmR0SXG6tw",
@@ -15,5 +16,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
+const auth = getAuth(app);
 
-export { database, app, firebaseConfig, BASE_URL };
+export { app, database, auth, firebaseConfig, baseURL };
