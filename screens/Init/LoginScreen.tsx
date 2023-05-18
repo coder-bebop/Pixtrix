@@ -72,7 +72,10 @@ function LoginScreen({ navigation }) {
         autoComplete="off"
         onChangeText={handleUserInput.bind(this, "password")}
       />
-      <Pressable style={styles.button} onPress={handleLogin}>
+      <Pressable
+        onPress={handleLogin}
+        style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+      >
         <Text style={styles.buttonText}>Login</Text>
       </Pressable>
 
@@ -145,6 +148,9 @@ const styles = StyleSheet.create({
   footerText: {
     color: "grey",
     fontSize: 16,
+  },
+  pressed: {
+    opacity: 0.65,
   },
 });
 

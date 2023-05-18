@@ -94,7 +94,10 @@ function SignUpScreen({ navigation }) {
         autoComplete="off"
         onChangeText={changeUserInput.bind(this, "confirmPassword")}
       />
-      <Pressable style={styles.button} onPress={handleSignUp}>
+      <Pressable
+        onPress={handleSignUp}
+        style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+      >
         <Text style={styles.buttonText}>Sign up</Text>
       </Pressable>
     </View>
@@ -155,6 +158,9 @@ const styles = StyleSheet.create({
   footerText: {
     color: "grey",
     fontSize: 16,
+  },
+  pressed: {
+    opacity: 0.65,
   },
 });
 
