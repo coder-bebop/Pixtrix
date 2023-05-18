@@ -6,8 +6,12 @@ import DoubleTapPressable from "./DoubleTapPressable";
 
 function ContentModal() {
   const [isVideoPaused, setIsVideoPaused] = useState(false);
+  const { isModalShown, content, showModal } = useContext(ContentContext);
   const videoRef = useRef(null);
-  const { isModalShown, showModal, content } = useContext(ContentContext);
+
+  function handlePress() {
+    setIsVideoPaused(!isVideoPaused);
+  }
 
   function handleDoubleTap(evt) {
     const video = videoRef.current;
@@ -33,12 +37,7 @@ function ContentModal() {
   }, [content]);
 
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={isModalShown}
-      onRequestClose={closeModal}
-    >
+    <Modal animationType="slide" visible={isModalShown} transparent={true}>
       <View style={styles.container}>
         {content.type === "image" && (
           <Image
@@ -49,7 +48,7 @@ function ContentModal() {
         )}
         {content.type === "video" && (
           <DoubleTapPressable
-            onPress={() => setIsVideoPaused(!isVideoPaused)}
+            onPress={handlePress}
             onDoubleTap={handleDoubleTap}
             style={styles.media}
           >
@@ -62,10 +61,13 @@ function ContentModal() {
             />
           </DoubleTapPressable>
         )}
-        <Pressable onPress={closeModal} style={styles.closeButton}>
-          <Text style={styles.closeButtonText}>Close</Text>
-        </Pressable>
       </View>
+      <Pressable
+        onPress={closeModal}
+        style={({ pressed }) => [styles.closeButton, pressed && styles.pressed]}
+      >
+        <Text style={styles.closeButtonText}>Close</Text>
+      </Pressable>
     </Modal>
   );
 }
@@ -73,24 +75,35 @@ function ContentModal() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  imageContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+    width: 400,
+    height: 300,
   },
   media: {
     width: "100%",
-    height: "80%",
+    height: "100%",
+    padding: "5%",
   },
   closeButton: {
-    backgroundColor: "white",
+    backgroundColor: "#E5E4E2",
     width: "100%",
-    height: "10%",
-    justifyContent: "center",
+    height: "7%",
     alignItems: "center",
+    justifyContent: "center",
   },
   closeButtonText: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
+  },
+  pressed: {
+    opacity: 0.4,
   },
 });
 

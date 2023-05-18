@@ -1,26 +1,28 @@
+import { DUMMY_IMAGE_URI } from "../values";
+
 export default FEATURED = [
   {
     title: "Trending",
     content: [
-      { type: "image", uri: "https://example.com/image1.jpg" },
-      { type: "image", uri: "https://example.com/image2.jpg" },
-      { type: "image", uri: "https://example.com/image3.jpg" },
+      { type: "image", uri: DUMMY_IMAGE_URI },
+      { type: "image", uri: DUMMY_IMAGE_URI },
+      { type: "image", uri: DUMMY_IMAGE_URI },
     ],
   },
   {
     title: "Art Attack",
     content: [
-      { type: "image", uri: "https://example.com/image1.jpg" },
-      { type: "image", uri: "https://example.com/image2.jpg" },
-      { type: "image", uri: "https://example.com/image3.jpg" },
+      { type: "image", uri: DUMMY_IMAGE_URI },
+      { type: "image", uri: DUMMY_IMAGE_URI },
+      { type: "image", uri: DUMMY_IMAGE_URI },
     ],
   },
   {
     title: "Something Fresh",
     content: [
-      { type: "image", uri: "https://example.com/image1.jpg" },
-      { type: "image", uri: "https://example.com/image2.jpg" },
-      { type: "image", uri: "https://example.com/image3.jpg" },
+      { type: "image", uri: DUMMY_IMAGE_URI },
+      { type: "image", uri: DUMMY_IMAGE_URI },
+      { type: "image", uri: DUMMY_IMAGE_URI },
     ],
   },
 ];

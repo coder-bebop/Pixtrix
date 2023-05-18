@@ -7,20 +7,20 @@ import { ContentContext } from "../store/context/content";
 function CarouselTile({ type, uri, style }) {
   const { changeContent } = useContext(ContentContext);
 
-  function onPressChangeContent() {
+  function handleChangeContent() {
     changeContent(type, uri);
   }
 
   return (
     <Pressable
-      onPress={onPressChangeContent}
+      onPress={handleChangeContent}
       style={({ pressed }) => [style, pressed && styles.pressed]}
     >
       {type === ContentType.Image && (
-        <Image style={styles.image} source={{ uri: uri }} />
+        <Image source={{ uri: uri }} style={styles.image} />
       )}
       {type === ContentType.Video && (
-        <Thumbnail style={styles.image} source={{ uri: uri }}>
+        <Thumbnail source={{ uri: uri }} style={styles.image}>
           <Text>00:00</Text>
         </Thumbnail>
       )}
@@ -31,6 +31,7 @@ function CarouselTile({ type, uri, style }) {
 const styles = StyleSheet.create({
   image: {
     width: "100%",
+    height: "100%",
     resizeMode: "contain",
   },
   pressed: {
