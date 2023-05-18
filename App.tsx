@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import { usePreventScreenCapture } from "expo-screen-capture";
 import { useEffect } from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
 import { overwriteData } from "./backend/writeData";
@@ -8,7 +9,10 @@ import CATEGORIES from "./constants/dummyData/SearchData";
 import ALBUMS from "./constants/dummyData/ProfileData";
 
 export default function App() {
-  // DUMMY DATA
+  // Hook for preventing screen capture
+  usePreventScreenCapture();
+
+  // DUMMY DATA GETS SENT EACH TIME WE OPEN THE APP
   useEffect(() => {
     overwriteData("featured", FEATURED);
     overwriteData("categories", CATEGORIES);
