@@ -12,7 +12,8 @@ export default function App() {
   // Hook for preventing screen capture
   usePreventScreenCapture();
 
-  // DUMMY DATA GETS SENT EACH TIME WE OPEN THE APP
+  // DUMMY DATA GETS SENT TO THE BACKEND
+  // EACH TIME WE OPEN THE APP
   useEffect(() => {
     overwriteData("featured", FEATURED);
     overwriteData("categories", CATEGORIES);
