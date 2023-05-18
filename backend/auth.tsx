@@ -1,6 +1,6 @@
 import { BASE_URL, firebaseConfig } from "./firebase";
 
-async function authenticate(mode: string, body: Object) {
+async function authenticate(mode: string, body: Object): Promise<string> {
   const fireBaseURL = `${BASE_URL}:${mode}?key=${firebaseConfig.apiKey}`;
   const requestInit = {
     method: "POST",
