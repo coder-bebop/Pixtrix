@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
+const BASE_URL = "https://identitytoolkit.googleapis.com/v1/accounts";
+
 const firebaseConfig = {
   apiKey: "AIzaSyA8DzASPQ36LC4-P5awnr0vxrmR0SXG6tw",
   authDomain: "pixtrix-6e370.firebaseapp.com",
@@ -14,4 +16,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-export { database, app, firebaseConfig };
+export { database, app, firebaseConfig, BASE_URL };

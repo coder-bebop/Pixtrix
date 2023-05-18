@@ -1,99 +1,64 @@
-import { Alert } from "react-native";
-import { firebaseConfig } from "./firebase";
+import { BASE_URL, firebaseConfig } from "./firebase";
 
-const BASE_URL = "https://identitytoolkit.googleapis.com/v1/accounts";
-const API_KEY = firebaseConfig.apiKey;
-
-const authenticate = async (mode: string, email: string, password: string) => {
-  const { data, status } = await fetch(`${BASE_URL}:${mode}?key=${API_KEY}`, {
+async function authenticate(mode: string, body: Object) {
+  const fireBaseURL = `${BASE_URL}:${mode}?key=${firebaseConfig.apiKey}`;
+  const requestInit = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      email,
-      password,
-      returnSecureToken: true,
-    }),
-  }).then((response) => response.json());
+    body: JSON.stringify(body),
+  };
 
-  if (status === 200) {
+  const { data, ok } = await fetch(fireBaseURL, requestInit).then((response) =>
+    response.json()
+  );
+
+  if (ok) {
     return data?.idToken;
   } else {
-    const error = data?.error?.message;
-
-    Alert.alert("Error", error);
-    throw new Error(error);
+    throw new Error(data?.error?.message);
   }
-};
+}
 
 // Sign up with email and password
-export function createUser(email, password) {
-  try {
-    return authenticate("signUp", email, password);
-  } catch (error) {
-    console.error("Error signing up with email and password:", error);
-    throw error;
-  }
+function createUser(email: string, password: string) {
+  const body = {
+    email,
+    password,
+    returnSecureToken: true,
+  };
+
+  return authenticate("signUp", body);
 }
 
 // Sign in with email and password
-export async function login(email, password) {
-  try {
-    return authenticate("signInWithPassword", email, password);
-  } catch (error) {
-    console.error("Error signing in with email and password:", error);
-    throw error;
-  }
+async function login(email: string, password: string) {
+  const body = {
+    email,
+    password,
+    returnSecureToken: true,
+  };
+
+  return authenticate("signInWithPassword", body);
 }
 
 // Sign out the current user
-export async function singOut(idToken) {
-  try {
-    const { data, status } = await fetch(`${BASE_URL}:signOut?key=${API_KEY}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        idToken,
-      }),
-    }).then((response) => response.json());
+function signOut(idToken) {
+  const body = {
+    idToken,
+  };
 
-    if (status !== 200) {
-      Alert.alert("Error", data.error.message);
-      throw new Error(data.error.message);
-    }
-  } catch (error) {
-    console.error("Error signing out:", error);
-    throw error;
-  }
+  return authenticate("signOut", body);
 }
 
 // Get the current user
-export const getCurrentUser = async (idToken) => {
-  try {
-    const { data, status } = await fetch(
-      `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API_KEY}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          idToken,
-        }),
-      }
-    ).then((response) => response.json());
+function getCurrentUser(idToken) {
+  const body = {
+    idToken,
+  };
 
-    if (status === 200) {
-      return data.users[0];
-    } else {
-      Alert.alert("Error", data.error.message);
-      throw new Error(data.error.message);
-    }
-  } catch (error) {
-    console.error("Error getting current user:", error);
-    throw error;
-  }
-};
+  return authenticate("lookup", body);
+}
+
+export { createUser, login, signOut, getCurrentUser };

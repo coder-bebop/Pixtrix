@@ -27,6 +27,7 @@ function LoginScreen({ navigation }) {
       const { email, password } = userInfo;
       const token = await login(email, password);
       authContext.authenticate(token);
+      console.debug(token);
       setIsAuthenticated(true);
 
       navigation.navigate("Main", { screen: "Home" });

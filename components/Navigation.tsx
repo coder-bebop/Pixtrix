@@ -73,7 +73,7 @@ function Navigation() {
   return (
     <AuthContextProvider>
       <NavigationContainer>
-        {false ? <InitScreens /> : <MainScreens />}
+        {!isAuthenticated ? <InitScreens /> : <MainScreens />}
       </NavigationContainer>
     </AuthContextProvider>
   );

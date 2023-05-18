@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 export const AuthContext = createContext({
   tokenId: "",
   isAuthenticated: false,
-  authenticate: (token) => {},
+  authenticate: (token: string) => {},
   logout: () => {},
 });
 
