@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { getCategoriesData } from "../../backend/readData";
 import { Data } from "../../constants/models/content";
-import MainHandler from "./MainHandler";
+import MainScreenHandler from "./MainScreenHandler";
 
 const numColumns = 2;
 const WIDTH = Dimensions.get("window").width;
@@ -36,35 +36,28 @@ function SearchScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <MainScreenHandler
+      fetchDataCallback={getCategoriesData}
+      setDataCallback={setData}
+    >
       <TextInput style={styles.searchInput} placeholder="Search" />
-      <MainHandler
-        fetchDataCallback={getCategoriesData}
-        setDataCallback={setData}
-      >
-        <FlatList
-          data={data}
-          renderItem={renderCategory}
-          keyExtractor={({ title }) => title}
-          numColumns={numColumns}
-          columnWrapperStyle={styles.row}
-          contentContainerStyle={styles.categoryList}
-        />
-      </MainHandler>
-    </View>
+      <FlatList
+        data={data}
+        renderItem={renderCategory}
+        keyExtractor={({ title }) => title}
+        numColumns={numColumns}
+        columnWrapperStyle={styles.row}
+        contentContainerStyle={styles.categoryList}
+      />
+    </MainScreenHandler>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 10,
-    backgroundColor: "#fff",
-  },
   searchInput: {
     margin: 18,
     padding: 10,
-    backgroundColor: "#eee",
+    backgroundColor: "#e0e0e0",
     borderRadius: 10,
   },
   categoryList: {

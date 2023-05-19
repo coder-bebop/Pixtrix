@@ -5,7 +5,7 @@ import ContentModal from "../../components/ContentModal";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { getProfileData } from "../../backend/readData";
 import { Data } from "../../constants/models/content";
-import MainHandler from "./MainHandler";
+import MainScreenHandler from "./MainScreenHandler";
 
 function ProfileScreen() {
   const [data, setData] = useState<Data[]>([]);
@@ -19,14 +19,15 @@ function ProfileScreen() {
   }
 
   return (
-    <View style={styles.screen}>
-      <MainHandler fetchDataCallback={getProfileData} setDataCallback={setData}>
-        <FlatList
-          data={data}
-          renderItem={renderCarousel}
-          keyExtractor={({ title }) => title}
-        />
-      </MainHandler>
+    <MainScreenHandler
+      fetchDataCallback={getProfileData}
+      setDataCallback={setData}
+    >
+      <FlatList
+        data={data}
+        renderItem={renderCarousel}
+        keyExtractor={({ title }) => title}
+      />
       <Pressable
         onPress={addAlbum}
         style={({ pressed }) => [styles.addButton, pressed && styles.pressed]}
@@ -34,14 +35,11 @@ function ProfileScreen() {
         <Ionicons name="add" size={38} color="white" />
       </Pressable>
       <ContentModal />
-    </View>
+    </MainScreenHandler>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-  },
   addButton: {
     alignSelf: "flex-end",
     width: 64,

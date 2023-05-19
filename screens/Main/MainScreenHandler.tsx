@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { View } from "react-native";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { POLLING_TIME } from "../../constants/values";
 
-function MainHandler({ fetchDataCallback, setDataCallback, children }) {
+function MainScreenHandler({ fetchDataCallback, setDataCallback, children }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -28,7 +29,7 @@ function MainHandler({ fetchDataCallback, setDataCallback, children }) {
     return <LoadingSpinner />;
   }
 
-  return <>{children}</>;
+  return <View style={{ flex: 1, paddingTop: 10 }}>{children}</View>;
 }
 
-export default MainHandler;
+export default MainScreenHandler;

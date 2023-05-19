@@ -4,7 +4,7 @@ import { getFeaturedData } from "../../backend/readData";
 import ContentModal from "../../components/ContentModal";
 import FeatureCarousel from "../../components/FeatureCarousel";
 import { Data } from "../../constants/models/content";
-import MainHandler from "./MainHandler";
+import MainScreenHandler from "./MainScreenHandler";
 
 function HomeScreen() {
   const [data, setData] = useState<Data[]>([]);
@@ -14,26 +14,18 @@ function HomeScreen() {
   }
 
   return (
-    <View style={styles.screen}>
-      <MainHandler
-        fetchDataCallback={getFeaturedData}
-        setDataCallback={setData}
-      >
-        <FlatList
-          data={data}
-          renderItem={renderCarousel}
-          keyExtractor={({ title }) => title}
-        />
-      </MainHandler>
+    <MainScreenHandler
+      fetchDataCallback={getFeaturedData}
+      setDataCallback={setData}
+    >
+      <FlatList
+        data={data}
+        renderItem={renderCarousel}
+        keyExtractor={({ title }) => title}
+      />
       <ContentModal />
-    </View>
+    </MainScreenHandler>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-  },
-});
 
 export default HomeScreen;
