@@ -7,22 +7,21 @@ function MainScreenHandler({ fetchDataCallback, setDataCallback, children }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      getData();
-    }, POLLING_TIME);
+    const intervalId = setInterval(getData, POLLING_TIME);
+    const cleanup = () => clearInterval(intervalId);
 
     async function getData() {
       const featuredData = await fetchDataCallback();
       if (featuredData.length !== 0) {
         setDataCallback(featuredData);
         setIsLoading(false);
-        clearInterval(intervalId);
+        cleanup();
       }
     }
 
     getData();
 
-    return () => clearInterval(intervalId);
+    return cleanup;
   }, []);
 
   if (isLoading) {

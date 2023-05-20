@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import { getFeaturedData } from "../../backend/readData";
 import ContentModal from "../../components/ContentModal";
 import FeatureCarousel from "../../components/FeatureCarousel";

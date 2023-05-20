@@ -44,11 +44,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     height: 200,
   },
-  carouselItemImage: {
-    height: 150,
-    width: 200,
-    resizeMode: "contain",
-  },
   reflection: {
     width: 250,
     height: 20,

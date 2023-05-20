@@ -1,10 +1,10 @@
-import { DUMMY_IMAGE_URI } from "../values";
+import { DUMMY_IMAGE_URI, DUMMY_VIDEO_URI } from "../values";
 
 export default FEATURED = [
   {
     title: "Trending",
     content: [
-      { type: "image", uri: DUMMY_IMAGE_URI },
+      { type: "video", uri: DUMMY_VIDEO_URI },
       { type: "image", uri: DUMMY_IMAGE_URI },
       { type: "image", uri: DUMMY_IMAGE_URI },
     ],

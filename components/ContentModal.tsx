@@ -6,12 +6,12 @@ import DoubleTapPressable from "./DoubleTapPressable";
 
 function ContentModal() {
   const [isFirstRender, setIsFirstRender] = useState(true);
-  const [isVideoPaused, setIsVideoPaused] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const { isModalShown, content, showModal } = useContext(ContentContext);
   const videoRef = useRef(null);
 
   function handlePress() {
-    setIsVideoPaused(!isVideoPaused);
+    setIsVideoPlaying(!isVideoPlaying);
   }
 
   function handleDoubleTap(evt) {
@@ -63,7 +63,7 @@ function ContentModal() {
               source={{ uri: content.uri }}
               style={styles.media}
               resizeMode="contain"
-              paused={isVideoPaused}
+              paused={isVideoPlaying}
             />
           </DoubleTapPressable>
         )}
