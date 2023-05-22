@@ -37,10 +37,7 @@ function ContentModal() {
           />
         )}
         {content.type === "video" && (
-          <Pressable
-            onPress={handlePress}
-            style={{ width: "100%", height: "100%" }}
-          >
+          <Pressable onPress={handlePress} style={styles.media}>
             <Video
               ref={videoRef}
               source={{ uri: content.uri }}
