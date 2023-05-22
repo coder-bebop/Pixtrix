@@ -18,6 +18,8 @@ function ContentModal() {
   }
 
   useEffect(() => {
+    // This stops the modal from showing on the first render,
+    // given that no content has been chosen
     if (isFirstRender) {
       setIsFirstRender(false);
       return;
