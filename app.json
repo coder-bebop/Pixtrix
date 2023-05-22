@@ -16,7 +16,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.pixtrix",
       "infoPlist": {
-        "NSPhotoLibraryUsageDescription": "This app needs access to the photo library to prevent screenshots"
+        "NSPhotoLibraryUsageDescription": "This app needs access to the photo library to prevent screenshots",
+        "NSMicrophoneUsageDescription": "This app needs access to the microphone to play video"
       }
     },
     "android": {
@@ -26,8 +27,9 @@
       },
       "package": "com.pixtrix",
       "permissions": [
-        "android.permission.READ_EXTERNAL_STORAGE",
-        "android.permission.WRITE_EXTERNAL_STORAGE"
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "RECORD_AUDIO"
       ]
     },
     "web": {

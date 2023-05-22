@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { View, Modal, Image, Text, Pressable, StyleSheet } from "react-native";
-import Video from "react-native-video";
+import { Video, ResizeMode } from "expo-av";
 import { ContentContext } from "../store/context/content";
 
 function ContentModal() {
@@ -43,8 +43,8 @@ function ContentModal() {
             <Video
               ref={videoRef}
               source={{ uri: content.uri }}
-              paused={isVideoPaused}
-              resizeMode="contain"
+              resizeMode={ResizeMode.CONTAIN}
+              isMuted={true}
             />
           </Pressable>
         )}
