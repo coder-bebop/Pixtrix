@@ -2,31 +2,15 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { View, Modal, Image, Text, Pressable, StyleSheet } from "react-native";
 import Video from "react-native-video";
 import { ContentContext } from "../store/context/content";
-import DoubleTapPressable from "./DoubleTapPressable";
 
 function ContentModal() {
-  const [isFirstRender, setIsFirstRender] = useState(true);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const { isModalShown, content, showModal } = useContext(ContentContext);
+  const [isFirstRender, setIsFirstRender] = useState(true);
+  const [isVideoPaused, setIsVideoPaused] = useState(false);
   const videoRef = useRef(null);
 
   function handlePress() {
-    setIsVideoPlaying(!isVideoPlaying);
-  }
-
-  function handleDoubleTap(evt) {
-    const video = videoRef.current;
-
-    const doubleTapSlop = 6;
-    const isDoubleTapLeft = evt.nativeEvent.locationX < doubleTapSlop;
-    const isDoubleTapRight =
-      evt.nativeEvent.locationX > evt.nativeEvent.pageX - doubleTapSlop;
-
-    if (isDoubleTapLeft) {
-      video.seek(video.currentTime - 10);
-    } else if (isDoubleTapRight) {
-      video.seek(video.currentTime + 10);
-    }
+    setIsVideoPaused(!isVideoPaused);
   }
 
   function closeModal() {
@@ -53,19 +37,17 @@ function ContentModal() {
           />
         )}
         {content.type === "video" && (
-          <DoubleTapPressable
+          <Pressable
             onPress={handlePress}
-            onDoubleTap={handleDoubleTap}
-            style={styles.media}
+            style={{ width: "100%", height: "100%" }}
           >
             <Video
               ref={videoRef}
               source={{ uri: content.uri }}
-              style={styles.media}
+              paused={isVideoPaused}
               resizeMode="contain"
-              paused={isVideoPlaying}
             />
-          </DoubleTapPressable>
+          </Pressable>
         )}
       </View>
       <Pressable
