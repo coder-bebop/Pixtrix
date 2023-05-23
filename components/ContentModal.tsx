@@ -1,11 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { View, Modal, Image, Text, Pressable, StyleSheet } from "react-native";
-import {
-  Video,
-  ResizeMode,
-  AVPlaybackStatus,
-  AVPlaybackStatusSuccess,
-} from "expo-av";
+import { Video, ResizeMode, AVPlaybackStatusSuccess } from "expo-av";
 import { ContentContext } from "../store/context/content";
 
 function ContentModal() {
@@ -17,6 +12,9 @@ function ContentModal() {
 
   async function togglePlayback() {
     const status = playbackStatus.isPlaying as AVPlaybackStatusSuccess;
+
+    // In the case that playbackStatus returns
+    // as an AVPlaybackStatusError
     if (status === undefined) {
       return;
     }
