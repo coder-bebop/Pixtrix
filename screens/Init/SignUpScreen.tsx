@@ -34,7 +34,7 @@ function SignUpScreen({ navigation }) {
     if (password !== confirmPassword) {
       Alert.alert(
         "Please confirm your password",
-        "For your benefit, your password should be similar in both text spaces"
+        "Password should be similar in both text spaces"
       );
 
       return;

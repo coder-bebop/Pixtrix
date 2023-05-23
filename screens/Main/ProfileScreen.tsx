@@ -1,4 +1,4 @@
-import { View, StyleSheet, FlatList, Pressable } from "react-native";
+import { StyleSheet, FlatList, Pressable } from "react-native";
 import { useState } from "react";
 import AlbumCarousel from "../../components/AlbumCarousel";
 import ContentModal from "../../components/ContentModal";
@@ -6,25 +6,33 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { getProfileData } from "../../backend/readData";
 import { Data } from "../../constants/models/content";
 import MainScreenHandler from "./MainScreenHandler";
+import * as ImagePicker from "expo-image-picker";
 
 function ProfileScreen() {
-  const [data, setData] = useState<Data[]>([]);
+  const [carousels, setCarousels] = useState<Data[]>([]);
 
   function renderCarousel({ item }) {
     return <AlbumCarousel title={item.title} content={item.content} />;
   }
 
-  function addAlbum(newAlbum) {
-    //setData((previousAlbums) => [...previousAlbums, newAlbum]);
+  async function addAlbum() {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    //setCarousels((previousAlbums) => [...previousAlbums, newAlbum]);
   }
 
   return (
     <MainScreenHandler
       fetchDataCallback={getProfileData}
-      setDataCallback={setData}
+      setDataCallback={setCarousels}
     >
       <FlatList
-        data={data}
+        data={carousels}
         renderItem={renderCarousel}
         keyExtractor={({ title }) => title}
       />

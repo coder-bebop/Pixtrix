@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { View, Modal, Image, Text, Pressable, StyleSheet } from "react-native";
-import { Video, ResizeMode, AVPlaybackStatusSuccess } from "expo-av";
+import { Video, ResizeMode } from "expo-av";
 import { ContentContext } from "../store/context/content";
 
 function ContentModal() {
@@ -11,16 +11,17 @@ function ContentModal() {
   const videoRef = useRef(null);
 
   async function togglePlayback() {
-    const status = playbackStatus.isPlaying as AVPlaybackStatusSuccess;
-
-    // In the case that playbackStatus returns
-    // as an AVPlaybackStatusError
-    if (status === undefined) {
+    // In the case that playbackStatus returns as an
+    // AVPlaybackStatusError rather than a AVPlaybackStatusSuccess
+    if (playbackStatus.isPlaying === undefined) {
       return;
     }
 
     const video = videoRef.current as Video;
-    status ? await video.pauseAsync() : await video.playAsync();
+
+    playbackStatus.isPlaying
+      ? await video.pauseAsync()
+      : await video.playAsync();
   }
 
   function closeModal() {
@@ -36,6 +37,8 @@ function ContentModal() {
     }
 
     setIsModalVisible(true);
+
+    return () => setIsModalVisible(false);
   }, [content]);
 
   return (
