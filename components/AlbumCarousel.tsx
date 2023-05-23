@@ -2,15 +2,15 @@ import { StyleSheet, Text, View, Dimensions, Pressable } from "react-native";
 import Carousel from "react-native-snap-carousel";
 import CarouselTile from "./CarouselTile";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { ContentType } from "../constants/models/content";
-import { addData, getRef, overwriteData } from "../backend/writeData";
+import { overwriteData } from "../backend/writeData";
 
 const { width: viewportWidth, height: viewportHeight } =
   Dimensions.get("window");
 
-function AlbumCarousel({ title, content }) {
+function AlbumCarousel({ title, content, index }) {
   const [tiles, setTiles] = useState(content);
 
   function renderTile({ item }) {
@@ -31,26 +31,22 @@ function AlbumCarousel({ title, content }) {
       quality: 1,
     });
 
-    if (canceled || !assets) {
+    if (canceled || !assets[0]) {
       return;
     }
 
-    let updatedCarousel;
     const newTile = {
       type: assets[0]?.type as ContentType,
       uri: assets[0]?.uri,
     };
 
-    setTiles(
-      (previousTiles) => (updatedCarousel = [...previousTiles, newTile])
-    );
+    setTiles((previousTiles) => {
+      const updatedCarousel = [...previousTiles, newTile];
 
-    /*
-    overwriteData("profile", {
-      title: title,
-      content: updatedCarousel,
+      //overwriteData("profile/" + index + "/content", updatedCarousel);
+
+      return updatedCarousel;
     });
-    */
   }
 
   return (

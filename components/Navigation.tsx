@@ -9,8 +9,7 @@ import {
   SearchScreen,
   ProfileScreen,
 } from "../screens";
-import { useContext } from "react";
-import AuthContextProvider, { AuthContext } from "../store/context/auth";
+import AuthContextProvider from "../store/context/auth";
 import ContentContextProvider from "../store/context/content";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
@@ -18,8 +17,6 @@ const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
 
 function Navigation() {
-  const { user } = useContext(AuthContext);
-
   function MainScreens() {
     return (
       <ContentContextProvider>

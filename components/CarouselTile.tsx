@@ -4,7 +4,7 @@ import { ContentType } from "../constants/models/content";
 import { ContentContext } from "../store/context/content";
 import { getThumbnailAsync } from "expo-video-thumbnails";
 import LoadingSpinner from "./LoadingSpinner";
-import { POLLING_TIME } from "../constants/values";
+import { THUMBNAIL_POLLING_TIME } from "../constants/values";
 
 function CarouselTile({ type, uri, style }) {
   const [image, setImage] = useState<string>(null);
@@ -18,7 +18,7 @@ function CarouselTile({ type, uri, style }) {
     if (type === ContentType.Image) {
       setImage(uri);
     } else if (type === ContentType.Video) {
-      const intervalId = setInterval(generateThumbnail, POLLING_TIME);
+      const intervalId = setInterval(generateThumbnail, THUMBNAIL_POLLING_TIME);
       const cleanup = () => clearInterval(intervalId);
 
       async function generateThumbnail() {

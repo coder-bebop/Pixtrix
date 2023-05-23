@@ -1,4 +1,6 @@
-export const POLLING_TIME = 1000;
+export const DATA_POLLING_TIME = 200;
+
+export const THUMBNAIL_POLLING_TIME = 1000;
 
 export const DUMMY_IMAGE_URI = "https://picsum.photos/400/300";
 

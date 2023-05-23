@@ -5,9 +5,9 @@ import { database } from "./firebase";
 const getRef = (endpoint: string) => ref(database, endpoint);
 
 function writeData(mode: WriteMode, endpoint: string, data?) {
-  const databaseRef = getRef(endpoint);
-
   try {
+    const databaseRef = getRef(endpoint);
+
     switch (mode) {
       case WriteMode.Overwrite:
         set(databaseRef, data);
@@ -17,8 +17,6 @@ function writeData(mode: WriteMode, endpoint: string, data?) {
   } catch (error) {
     console.error(error);
   }
-
-  return databaseRef;
 }
 
 function overwriteData(endpoint: string, data?) {

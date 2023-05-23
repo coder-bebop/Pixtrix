@@ -4,26 +4,52 @@ import AlbumCarousel from "../../components/AlbumCarousel";
 import ContentModal from "../../components/ContentModal";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { getProfileData } from "../../backend/readData";
-import { Data } from "../../constants/models/content";
+import { ContentType, Data } from "../../constants/models/content";
 import MainScreenHandler from "./MainScreenHandler";
 import * as ImagePicker from "expo-image-picker";
 
 function ProfileScreen() {
   const [carousels, setCarousels] = useState<Data[]>([]);
 
-  function renderCarousel({ item }) {
-    return <AlbumCarousel title={item.title} content={item.content} />;
+  function renderCarousel({ item, index }) {
+    if (!item) {
+      return;
+    }
+
+    return (
+      <AlbumCarousel title={item.title} content={item.content} index={index} />
+    );
   }
 
   async function addAlbum() {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const { assets, canceled } = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
-    //setCarousels((previousAlbums) => [...previousAlbums, newAlbum]);
+    if (canceled || !assets[0]) {
+      return;
+    }
+
+    /*
+    setCarousels((previousAlbums) => {
+      const newAlbumIndex = previousAlbums.length;
+
+      const newAlbum = [
+        {
+          title: `Album ${newAlbumIndex}`,
+          content: {
+            type: assets[0]?.type as ContentType,
+            uri: assets[0]?.uri,
+          },
+        },
+      ];
+      const updatedCarousels = [...previousAlbums, newAlbum];
+      return updatedCarousels;
+    });
+    */
   }
 
   return (

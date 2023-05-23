@@ -47,8 +47,8 @@ function ContentModal() {
         {content.type === "image" && (
           <Image
             source={{ uri: content.uri }}
-            style={styles.media}
             resizeMode="contain"
+            style={styles.media}
           />
         )}
         {content.type === "video" && (

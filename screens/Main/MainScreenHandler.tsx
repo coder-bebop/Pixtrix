@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { View } from "react-native";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import { POLLING_TIME } from "../../constants/values";
+import { DATA_POLLING_TIME } from "../../constants/values";
 
 function MainScreenHandler({ fetchDataCallback, setDataCallback, children }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const intervalId = setInterval(getData, POLLING_TIME);
+    const intervalId = setInterval(getData, DATA_POLLING_TIME);
     const cleanup = () => clearInterval(intervalId);
 
     async function getData() {
