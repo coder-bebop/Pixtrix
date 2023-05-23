@@ -16,15 +16,13 @@ function ContentModal() {
   const videoRef = useRef(null);
 
   async function togglePlayback() {
-    if (!playbackStatus) {
+    const status = playbackStatus.isPlaying as AVPlaybackStatusSuccess;
+    if (status === undefined) {
       return;
     }
 
     const video = videoRef.current as Video;
-
-    (playbackStatus.isPlaying as AVPlaybackStatusSuccess)
-      ? await video.pauseAsync()
-      : await video.playAsync();
+    status ? await video.pauseAsync() : await video.playAsync();
   }
 
   function closeModal() {
