@@ -1,20 +1,34 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { View, Modal, Image, Text, Pressable, StyleSheet } from "react-native";
-import { Video, ResizeMode } from "expo-av";
+import {
+  Video,
+  ResizeMode,
+  AVPlaybackStatus,
+  AVPlaybackStatusSuccess,
+} from "expo-av";
 import { ContentContext } from "../store/context/content";
 
 function ContentModal() {
-  const { isModalShown, content, showModal } = useContext(ContentContext);
+  const { content } = useContext(ContentContext);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [isFirstRender, setIsFirstRender] = useState(true);
-  const [isVideoPaused, setIsVideoPaused] = useState(false);
+  const [playbackStatus, setPlaybackStatus] = useState(null);
   const videoRef = useRef(null);
 
-  function handlePress() {
-    setIsVideoPaused(!isVideoPaused);
+  async function togglePlayback() {
+    if (!playbackStatus) {
+      return;
+    }
+
+    const video = videoRef.current as Video;
+
+    (playbackStatus.isPlaying as AVPlaybackStatusSuccess)
+      ? await video.pauseAsync()
+      : await video.playAsync();
   }
 
   function closeModal() {
-    showModal(false);
+    setIsModalVisible(false);
   }
 
   useEffect(() => {
@@ -25,11 +39,11 @@ function ContentModal() {
       return;
     }
 
-    showModal(true);
+    setIsModalVisible(true);
   }, [content]);
 
   return (
-    <Modal animationType="slide" visible={isModalShown} transparent={true}>
+    <Modal animationType="slide" visible={isModalVisible} transparent={true}>
       <View style={styles.container}>
         {content.type === "image" && (
           <Image
@@ -39,12 +53,14 @@ function ContentModal() {
           />
         )}
         {content.type === "video" && (
-          <Pressable onPress={handlePress} style={styles.media}>
+          <Pressable onPress={togglePlayback} style={styles.media}>
             <Video
               ref={videoRef}
               source={{ uri: content.uri }}
-              resizeMode={ResizeMode.CONTAIN}
               isMuted={true}
+              resizeMode={ResizeMode.CONTAIN}
+              onPlaybackStatusUpdate={(status) => setPlaybackStatus(status)}
+              style={styles.media}
             />
           </Pressable>
         )}
