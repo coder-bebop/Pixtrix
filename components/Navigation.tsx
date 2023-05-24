@@ -56,7 +56,7 @@ function Navigation() {
   function InitScreens() {
     return (
       <Stack.Navigator
-        initialRouteName="Main"
+        initialRouteName="Login"
         screenOptions={{
           headerShown: false,
         }}
