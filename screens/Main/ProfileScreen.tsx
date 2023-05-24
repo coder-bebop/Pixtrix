@@ -11,14 +11,12 @@ import * as ImagePicker from "expo-image-picker";
 function ProfileScreen() {
   const [carousels, setCarousels] = useState<Data[]>([]);
 
-  function renderCarousel({ item, index }) {
+  function renderCarousel({ item }) {
     if (!item) {
       return;
     }
 
-    return (
-      <AlbumCarousel title={item.title} content={item.content} index={index} />
-    );
+    return <AlbumCarousel title={item.title} content={item.content} />;
   }
 
   async function addAlbum() {

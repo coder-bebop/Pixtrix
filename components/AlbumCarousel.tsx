@@ -5,12 +5,11 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { ContentType } from "../constants/models/content";
-import { overwriteData } from "../backend/writeData";
 
 const { width: viewportWidth, height: viewportHeight } =
   Dimensions.get("window");
 
-function AlbumCarousel({ title, content, index }) {
+function AlbumCarousel({ title, content }) {
   const [tiles, setTiles] = useState(content);
 
   function renderTile({ item }) {
