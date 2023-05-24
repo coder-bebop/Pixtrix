@@ -6,7 +6,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { getProfileData } from "../../backend/readData";
 import { ContentType, Data } from "../../constants/models/content";
 import MainScreenHandler from "./MainScreenHandler";
-import * as ImagePicker from "expo-image-picker";
+import { launchImageLibraryAsync, MediaTypeOptions } from "expo-image-picker";
 
 function ProfileScreen() {
   const [carousels, setCarousels] = useState<Data[]>([]);
@@ -20,8 +20,8 @@ function ProfileScreen() {
   }
 
   async function addAlbum() {
-    const { assets, canceled } = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+    const { assets, canceled } = await launchImageLibraryAsync({
+      mediaTypes: MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,

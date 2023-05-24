@@ -3,7 +3,7 @@ import Carousel from "react-native-snap-carousel";
 import CarouselTile from "./CarouselTile";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
-import * as ImagePicker from "expo-image-picker";
+import { launchImageLibraryAsync, MediaTypeOptions } from "expo-image-picker";
 import { ContentType } from "../constants/models/content";
 
 const { width: viewportWidth, height: viewportHeight } =
@@ -23,8 +23,8 @@ function AlbumCarousel({ title, content }) {
   }
 
   async function addContent() {
-    const { assets, canceled } = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+    const { assets, canceled } = await launchImageLibraryAsync({
+      mediaTypes: MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
