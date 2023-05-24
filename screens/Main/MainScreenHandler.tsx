@@ -13,7 +13,7 @@ function MainScreenHandler({ fetchDataCallback, setDataCallback, children }) {
     async function getData() {
       const featuredData = await fetchDataCallback();
       if (featuredData.length !== 0) {
-        setDataCallback(featuredData);
+        setDataCallback(featuredData.filter((item) => item));
         setIsLoading(false);
         cleanup();
       }

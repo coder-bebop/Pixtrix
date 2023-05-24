@@ -7,16 +7,17 @@ import LoadingSpinner from "./LoadingSpinner";
 import { THUMBNAIL_POLLING_TIME } from "../constants/values";
 
 function CarouselTile({ type, uri, style }) {
-  const [image, setImage] = useState<string>(null);
-  const { changeContent } = useContext(ContentContext);
+  const [imageURI, setImageURI] = useState<string>(null);
+  const { setContent, setShowModal } = useContext(ContentContext);
 
-  function handleChangeContent() {
-    changeContent(type, uri);
+  function handleSetContent() {
+    setContent(type, uri);
+    setShowModal(true);
   }
 
   useEffect(() => {
     if (type === ContentType.Image) {
-      setImage(uri);
+      setImageURI(uri);
     } else if (type === ContentType.Video) {
       const intervalId = setInterval(generateThumbnail, THUMBNAIL_POLLING_TIME);
       const cleanup = () => clearInterval(intervalId);
@@ -26,7 +27,7 @@ function CarouselTile({ type, uri, style }) {
           const response = await getThumbnailAsync(uri);
 
           if (response) {
-            setImage(response?.uri);
+            setImageURI(response?.uri);
             cleanup();
           }
         } catch (e) {
@@ -40,24 +41,26 @@ function CarouselTile({ type, uri, style }) {
     }
   }, []);
 
-  if (!image) {
+  if (!imageURI) {
     return <LoadingSpinner />;
   }
 
   return (
     <View style={{ borderWidth: 0.1 }}>
       <Pressable
-        onPress={handleChangeContent}
+        onPress={handleSetContent}
         style={({ pressed }) => [style, pressed && styles.pressed]}
       >
-        {image && <Image source={{ uri: image }} style={styles.image} />}
+        {imageURI && (
+          <Image source={{ uri: imageURI }} style={styles.imageURI} />
+        )}
       </Pressable>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  image: {
+  imageURI: {
     width: "100%",
     height: "100%",
     resizeMode: "contain",

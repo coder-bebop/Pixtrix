@@ -2,15 +2,14 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { View, Modal, Image, Text, Pressable, StyleSheet } from "react-native";
 import { Video, ResizeMode } from "expo-av";
 import { ContentContext } from "../store/context/content";
+import { ContentType } from "../constants/models/content";
 
 function ContentModal() {
-  const { content } = useContext(ContentContext);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isFirstRender, setIsFirstRender] = useState(true);
   const [playbackStatus, setPlaybackStatus] = useState(null);
+  const { content, showModal, setShowModal } = useContext(ContentContext);
   const videoRef = useRef(null);
 
-  async function togglePlayback() {
+  function togglePlayback() {
     // In the case that playbackStatus returns as an
     // AVPlaybackStatusError rather than a AVPlaybackStatusSuccess
     if (playbackStatus.isPlaying === undefined) {
@@ -19,39 +18,24 @@ function ContentModal() {
 
     const video = videoRef.current as Video;
 
-    playbackStatus.isPlaying
-      ? await video.pauseAsync()
-      : await video.playAsync();
+    playbackStatus.isPlaying ? video.pauseAsync() : video.playAsync();
   }
 
   function closeModal() {
-    setIsModalVisible(false);
+    setShowModal(false);
   }
 
-  useEffect(() => {
-    // This stops the modal from showing on the first render,
-    // given that no content has been chosen
-    if (isFirstRender) {
-      setIsFirstRender(false);
-      return;
-    }
-
-    setIsModalVisible(true);
-
-    return () => setIsModalVisible(false);
-  }, [content]);
-
   return (
-    <Modal animationType="slide" visible={isModalVisible} transparent={true}>
+    <Modal animationType="slide" visible={showModal} transparent={true}>
       <View style={styles.container}>
-        {content.type === "image" && (
+        {content.type === ContentType.Image && (
           <Image
             source={{ uri: content.uri }}
             resizeMode="contain"
             style={styles.media}
           />
         )}
-        {content.type === "video" && (
+        {content.type === ContentType.Video && (
           <Pressable onPress={togglePlayback} style={styles.media}>
             <Video
               ref={videoRef}

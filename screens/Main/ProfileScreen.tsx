@@ -33,23 +33,23 @@ function ProfileScreen() {
       return;
     }
 
-    /*
     setCarousels((previousAlbums) => {
-      const newAlbumIndex = previousAlbums.length;
+      const newAlbumIndex = previousAlbums.length + 1;
 
-      const newAlbum = [
-        {
-          title: `Album ${newAlbumIndex}`,
-          content: {
+      const newAlbum = {
+        title: `Album ${newAlbumIndex}`,
+        content: [
+          {
             type: assets[0]?.type as ContentType,
             uri: assets[0]?.uri,
           },
-        },
-      ];
+        ],
+      };
+
       const updatedCarousels = [...previousAlbums, newAlbum];
+
       return updatedCarousels;
     });
-    */
   }
 
   return (

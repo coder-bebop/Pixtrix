@@ -57,7 +57,7 @@ function AlbumCarousel({ title, content, index }) {
         renderItem={renderTile}
         containerCustomStyle={styles.carousel}
         sliderWidth={viewportWidth}
-        itemWidth={viewportWidth * 0.35}
+        itemWidth={viewportWidth * 0.38}
       />
       <Pressable onPress={addContent} style={styles.addButtonContainer}>
         <Ionicons name="add" size={16} color="gray" />
